@@ -12,30 +12,27 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ToDoApp.Business.Abstract;
 using ToDoApp.DataAccess.Abstract;
+using ToDoApp.DataAccess.Concrete.EfCore;
 using ToDoApp.Entities;
 
-namespace ToDoApp
+namespace ToDoApp.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        private IUserDal _userDal;
-        public MainWindow(IUserDal userDal)
+        private IUserService _userService;
+        public MainWindow()
         {
-            _userDal = userDal;
             InitializeComponent();
-
-            User user = new User();
-            user.FullName = "Kadir Erceylan";
-            user.UserName = "Kadir";
-            user.Password = "1234567";
-            _userDal.Create(user);
-
-            var userList = _userDal.GetAll();
-
+            string a = Application.Current.Properties["UserId"].ToString();
+        }
+        public MainWindow(IUserService userService)
+        {
+            _userService = userService;
         }
     }
 }

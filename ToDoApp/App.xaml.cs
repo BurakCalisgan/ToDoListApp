@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,8 +7,11 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using ToDoApp.Business.Abstract;
+using ToDoApp.Business.Concrete;
 using ToDoApp.DataAccess.Abstract;
 using ToDoApp.DataAccess.Concrete.EfCore;
+using ToDoApp.View;
 
 namespace ToDoApp
 {
@@ -27,14 +29,25 @@ namespace ToDoApp
         }
         private void ConfigureServices(IServiceCollection services)
         {
+            //DataAccess
             services.AddScoped<IUserDal, EfCoreUserDal>();
+            //Business
+            services.AddScoped<IUserService, UserManager>();
+
+            services.AddScoped<LoginPage>();
+            services.AddScoped<RegisterPage>();
             services.AddScoped<MainWindow>();
         }
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            var mainWindow = _serviceProvider.GetService<MainWindow>();
-            mainWindow.Show();
+            SeedDatabase.Seed();
+            //İlk açıldığı anda kuruculardaki interfaceleri initial etmek için kullanıyoruz.
+            _serviceProvider.GetService<RegisterPage>();
+            _serviceProvider.GetService<MainWindow>();
+            var loginWindow = _serviceProvider.GetService<LoginPage>();
+            
+            loginWindow.Show();
         }
 
     }

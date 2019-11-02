@@ -12,7 +12,13 @@ namespace ToDoApp.DataAccess.Concrete.EfCore
         {
             optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB; Database=ToDoListDb; integrated security=true");
         }
-
+        //UserName unique olması için fonksiyonun içindeki satırlar yazıldı.
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .HasIndex(b => b.UserName)
+                .IsUnique();
+        }
         public DbSet<User> Users { get; set; }
         public DbSet<ToDoList> ToDoLists { get; set; }
         public DbSet<Status> Statuses { get; set; }

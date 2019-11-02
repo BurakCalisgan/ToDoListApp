@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ToDoApp.DataAccess\ToDoApp.DataAccess.csproj" />
+    <ProjectReference Include="..\ToDoApp.Entities\ToDoApp.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using ToDoApp.Entities;
 
-namespace ToDoApp.DataAccess.Abstract
+namespace ToDoApp.Business.Abstract
 {
-    public interface IUserDal : IRepository<User>
+    public interface IUserService
     {
+        void Create(User entity);
+        User GetById(int id);
         User GetByUserName(string userName);
     }
 }
