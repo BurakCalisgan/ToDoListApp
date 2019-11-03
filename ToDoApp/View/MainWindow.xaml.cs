@@ -234,8 +234,8 @@ namespace ToDoApp.View
 
         #endregion Add ToDoList
 
-        #endregion Event Functions
 
+        #region Add ToDo List Item
         private void btnToDoListItemAdd_Click(object sender, RoutedEventArgs e)
         {
             popupToDoListItemAdd.IsOpen = true;
@@ -262,7 +262,7 @@ namespace ToDoApp.View
                     txtToDoItemName.Text = "";
                     txtToDoItemStartDate.Text = null;
                     txtToDoItemDeadLine.Text = null;
-                    popupToDoAdd.IsOpen = false;
+                    popupToDoListItemAdd.IsOpen = false;
                     FillToDoListItemGrid(selectedToDoListId);
                     MessageBox.Show("ToDo List Item has been added successfully.");
 
@@ -274,7 +274,7 @@ namespace ToDoApp.View
                     popupToDoListItemAdd.IsOpen = true;
                 }
 
-                
+
             }
             catch (Exception ex)
             {
@@ -290,6 +290,10 @@ namespace ToDoApp.View
             txtToDoItemStartDate.Text = null;
             txtToDoItemDeadLine.Text = null;
         }
+        #endregion Add ToDo List Item
+
+        #endregion Event Functions
+
 
         private void ToDoListItem_Delete_Click(object sender, RoutedEventArgs e)
         {

@@ -11,8 +11,8 @@ namespace ToDoApp.DataAccess.Abstract
         T GetOne(Expression<Func<T, bool>> filter);
         List<T> GetAll(Expression<Func<T, bool>> filter = null);
 
-        void Create(T entity);
-        void Update(T entity);
-        void Delete(T entity);
+        int Create(T entity);
+        int Update(T entity);
+        int Delete(T entity);
     }
 }

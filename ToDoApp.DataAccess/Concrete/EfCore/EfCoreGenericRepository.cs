@@ -12,21 +12,21 @@ namespace ToDoApp.DataAccess.Concrete.EfCore
         where T : class
         where TContext : DbContext, new()
     {
-        public virtual void Create(T entity)
+        public virtual int Create(T entity)
         {
             using (var context = new TContext())
             {
                 context.Set<T>().Add(entity);
-                context.SaveChanges();
+                return context.SaveChanges();
             }
         }
 
-        public virtual void Delete(T entity)
+        public virtual int Delete(T entity)
         {
             using (var context = new TContext())
             {
                 context.Set<T>().Remove(entity);
-                context.SaveChanges();
+                return context.SaveChanges();
             }
         }
 
@@ -56,12 +56,12 @@ namespace ToDoApp.DataAccess.Concrete.EfCore
             }
         }
 
-        public virtual void Update(T entity)
+        public virtual int Update(T entity)
         {
             using (var context = new TContext())
             {
                 context.Entry(entity).State = EntityState.Modified;
-                context.SaveChanges();
+                return context.SaveChanges();
             }
         }
     }
