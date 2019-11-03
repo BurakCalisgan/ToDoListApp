@@ -19,12 +19,20 @@ namespace ToDoApp.View
     /// </summary>
     public partial class RegisterPage : Window
     {
-        private IUserService _userService;
-       
+        private static IUserService _userService;
+
+        public RegisterPage()
+        {
+            InitializeComponent();
+        }
+
         public RegisterPage(IUserService userService)
         {
             InitializeComponent();
-            _userService = userService;
+            if (_userService == null)
+            {
+                _userService = userService;
+            }
         }
 
         #region Click Functions
@@ -49,7 +57,7 @@ namespace ToDoApp.View
                 }
                 else
                 {
-                    MessageBox.Show("User information musT be filled !");
+                    MessageBox.Show("User information must be filled !");
                 }
                
 
@@ -69,11 +77,24 @@ namespace ToDoApp.View
 
         public void RedirectToLogin()
         {
-            LoginPage loginWindow = new LoginPage(_userService);
+            LoginPage loginWindow = new LoginPage();
             loginWindow.Show();
             this.Close();
         }
 
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        //protected override void OnClosed(EventArgs e)
+        //{
+        //    base.OnClosed(e);
+
+        //    Application.Current.Shutdown();
+        //}
+
         #endregion Click Functions
+
     }
 }

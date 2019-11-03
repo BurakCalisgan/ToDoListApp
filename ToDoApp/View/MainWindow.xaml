@@ -4,9 +4,107 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoApp.View"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Main" Height="800" Width="1024" FontSize="14" Background="#04c582" WindowState="Maximized">
+    <Border Background="#2e3137" CornerRadius="20" Margin="20">
+        <Grid Background="#FFEEEEEE" MouseDown="Grid_MouseDown">
+            <StackPanel VerticalAlignment="Top">
+                <Grid  Height="10"/>
+                <Grid Margin="5">
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                        <TextBlock Text="ToDo ListApp" VerticalAlignment="Center" FontSize="20" FontFamily="Champagne &amp; Limousines" Margin="20 0"/>
+                        
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10 0">
+                        <Button Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Foreground="Gray">
+                            <materialDesign:PackIcon Kind="Speaker"/>
+                        </Button>
+                        <TextBlock x:Name="txtUserFullName" Text="" VerticalAlignment="Center" FontSize="20" FontFamily="Champagne &amp; Limousines" Margin=" 0"/>
+                        
+                        <Button Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Foreground="Gray" Margin="0 0 10 0">
+                            <materialDesign:PackIcon Kind="Settings"/>
+                        </Button>
+                        <Button x:Name="ButtonFechar" Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Foreground="Gray" Click="ButtonClose_Click">
+                            <materialDesign:PackIcon Kind="Power"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
 
-    </Grid>
+            <Grid Margin="250 55 0 0">
+                <Grid x:Name="GridPrincipal" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Grid>
+
+            <Grid Width="400" HorizontalAlignment="Left" Background="#2e3137">
+               
+                <materialDesign:TransitioningContent x:Name="TrainsitionigContentSlide" OpeningEffect="{materialDesign:TransitionEffect SlideInFromLeft, Duration=0:0:0.2}">
+                    <Grid x:Name="GridCursor" Margin="0 100 0 0" Background="#2e3137" Width="10" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top"/>
+                </materialDesign:TransitioningContent>
+                <StackPanel Orientation="Vertical" Margin="10">
+                    <Button Name="btnToDoAdd" Click="btnToDoAdd_Click" Margin="10" Content="ToDo List Add"  Background="#545d6a" Foreground="White" FontSize="18"  />
+                    
+                </StackPanel>
+                <ListView x:Name="ToDoListMenu" Margin="0 100" Background="#2e3137" Foreground="White" FontFamily="Champagne &amp; Limousines" FontSize="18" SelectionChanged="ToDoListMenu_SelectionChanged" SelectedIndex="0">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="FormatListBulleted" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
+                                <TextBlock Text="{Binding Id}" FontSize="17" VerticalAlignment="Center" Margin="20 0"/>
+                                <TextBlock Text="{Binding Name}" FontSize="17" VerticalAlignment="Center" Margin="20 0"/>
+                                <Button x:Name="ToDoListMenu_Delete" FontSize="17" VerticalAlignment="Center" Margin="20 0" Click="ToDoListMenu_Delete_Button_Click">
+                                    <materialDesign:PackIcon Kind="Delete"/>
+                                </Button>
+                                <Button x:Name="ToDoListMenu_Edit" FontSize="17" VerticalAlignment="Center" Margin="20 0" Click="ToDoListMenu_Edit_Button_Click">
+                                    <materialDesign:PackIcon Kind="TableEdit"/>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    
+                </ListView>
+            </Grid>
+            <Popup x:Name="popupToDoAdd" Width="500" Height="400" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center" >
+                <Border Background="#2e3137" CornerRadius="20" Margin="20">
+                    <StackPanel Margin="20">
+                        <Label Content="ToDo List Add" Foreground="White" FontSize="25" HorizontalAlignment="Center"/>
+                        <Separator></Separator>
+                        <Label Content="ToDo Name" Foreground="White"/>
+                        <TextBox Name="txtToDoName" Background="#545d6a" Foreground="White" FontSize="18"/>
+                        <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
+                            <Button Name="btnPopupToDoAdd" Click="btnPopupToDoAdd_Click" Margin="10" Content="Add"  Background="#545d6a" Foreground="White" FontSize="18"  />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 100 0 0" HorizontalAlignment="Right">
+                            <Button Name="btnPopupClose" Click="btnPopupClose_Click" Margin="10" Content="Close"  Background="#545d6a" Foreground="White" FontSize="18"  />
+
+                        </StackPanel>
+
+                    </StackPanel>
+
+                </Border>
+            </Popup>
+
+            <Popup x:Name="popupToDoEdit" Width="500" Height="400" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center" >
+                <Border Background="#2e3137" CornerRadius="20" Margin="20">
+                    <StackPanel Margin="20">
+                        <Label Content="ToDo List Add" Foreground="White" FontSize="25" HorizontalAlignment="Center"/>
+                        <Separator></Separator>
+                        <Label Content="ToDo Name" Foreground="White"/>
+                        <TextBox Name="txtToDoEditName" Background="#545d6a" Foreground="White" FontSize="18"/>
+                        <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
+                            <Button Name="btnPopupToDoEdit" Click="btnPopupToDoEdit_Click" Margin="10" Content="Edit"  Background="#545d6a" Foreground="White" FontSize="18"  />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 100 0 0" HorizontalAlignment="Right">
+                            <Button Name="btnEditPopupClose" Click="btnEditPopupClose_Click" Margin="10" Content="Close"  Background="#545d6a" Foreground="White" FontSize="18"  />
+
+                        </StackPanel>
+
+                    </StackPanel>
+
+                </Border>
+            </Popup>
+        </Grid>
+    </Border>
+
+    
 </Window>

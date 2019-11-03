@@ -21,6 +21,10 @@
                 <Button Name="btnRegister" Click="btnRegister_Click" Margin="10"  Content="Register"  Background="#545d6a" Foreground="White" FontSize="18"/>
                 <Button Name="btnCancel" Click="btnCancel_Click" Margin="10" Content="Cancel"  Background="#545d6a" Foreground="White" FontSize="18"  />
             </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 50 0 0" HorizontalAlignment="Right">
+                <Button Name="btnClose" Click="btnClose_Click" Margin="10" Content="Close"  Background="#545d6a" Foreground="White" FontSize="18"  />
+
+            </StackPanel>
 
         </StackPanel>
     </Border>

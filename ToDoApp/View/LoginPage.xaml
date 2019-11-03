@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ToDoApp.View"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Login" Height="500" Width="480" FontSize="14" Background="#04c582" >
+        Title="Login" Height="500" Width="480" FontSize="14" Background="#04c582" WindowStyle="SingleBorderWindow" >
     <Border Background="#2e3137" CornerRadius="20" Margin="20">
         <StackPanel Margin="20">
             <Label Content="Login" Foreground="White" FontSize="25" HorizontalAlignment="Center"/>
@@ -19,7 +19,11 @@
                 <Button Name="btnLogin" Click="btnLogin_Click" Margin="10" Content="Login"  Background="#545d6a" Foreground="White" FontSize="18"  />
                 <Button Name="btnRegister" Click="btnRegister_Click" Margin="10"  Content="Register"  Background="#545d6a" Foreground="White" FontSize="18"/>
             </StackPanel>
-            
+            <StackPanel Orientation="Horizontal" Margin="0 100 0 0" HorizontalAlignment="Right">
+                <Button Name="btnClose" Click="btnClose_Click" Margin="10" Content="Close"  Background="#545d6a" Foreground="White" FontSize="18"  />
+               
+            </StackPanel>
+
         </StackPanel>
     </Border>
 </Window>

@@ -18,11 +18,20 @@ namespace ToDoApp.View
     /// </summary>
     public partial class LoginPage : Window
     {
-        private IUserService _userService;
+        private static IUserService _userService;
+
+        public LoginPage()
+        {
+            InitializeComponent();
+        }
         public LoginPage(IUserService userService)
         {
             InitializeComponent();
-            _userService = userService;
+            if (_userService == null)
+            {
+                _userService = userService;
+            }
+            
         }
 
         #region Click Functions
@@ -64,7 +73,7 @@ namespace ToDoApp.View
         {
             try
             {
-                RegisterPage registerWindow = new RegisterPage(_userService);
+                RegisterPage registerWindow = new RegisterPage();
                 registerWindow.Show();
                 this.Close();
             }
@@ -73,6 +82,17 @@ namespace ToDoApp.View
                 MessageBox.Show("An error occurred : " + ex.Message);
             }
         }
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        //protected override void OnClosed(EventArgs e)
+        //{
+        //    base.OnClosed(e);
+
+        //    Application.Current.Shutdown();
+        //}
 
 
         #endregion Click Functions

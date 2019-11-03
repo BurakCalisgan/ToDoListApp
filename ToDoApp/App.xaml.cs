@@ -23,6 +23,7 @@ namespace ToDoApp
         private readonly ServiceProvider _serviceProvider;
         public App()
         {
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             _serviceProvider = serviceCollection.BuildServiceProvider();
@@ -30,9 +31,11 @@ namespace ToDoApp
         private void ConfigureServices(IServiceCollection services)
         {
             //DataAccess
-            services.AddScoped<IUserDal, EfCoreUserDal>();
+            services.AddScoped<IUserDal, EfCoreUserDal>(); 
+            services.AddScoped<IToDoListDal, EfCoreToDoListDal>();
             //Business
             services.AddScoped<IUserService, UserManager>();
+            services.AddScoped<IToDoListService, ToDoListManager>();
 
             services.AddScoped<LoginPage>();
             services.AddScoped<RegisterPage>();
@@ -49,6 +52,6 @@ namespace ToDoApp
             
             loginWindow.Show();
         }
-
+        
     }
 }
