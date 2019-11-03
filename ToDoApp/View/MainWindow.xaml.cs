@@ -45,6 +45,7 @@ namespace ToDoApp.View
         {
             ToDoListMenu.ItemsSource = _toDoListService.GetToDoListByUserId(userId);
         }
+
         public void FillToDoListItemGrid(int ToDoListId)
         {
             var toDoListItems = _toDoListItemService.GetToDoListItemsByToDoListId(ToDoListId);
@@ -53,12 +54,11 @@ namespace ToDoApp.View
             {
                 Id = i.Id,
                 Name = i.Name,
-                Description=i.Description,
-                StartDate =i.StartDate,
+                Description = i.Description,
+                StartDate = i.StartDate,
                 DeadLine = i.DeadLine,
-                Status = i.Status.Name
-
-
+                Status = DateTime.Now > i.DeadLine  ? "Expired " : i.Status.Name,
+                IsCompleted = i.Status.Id != 2 ? false : true
             }).ToList();
             lvToDoListItem.ItemsSource = list;
         }
@@ -292,23 +292,146 @@ namespace ToDoApp.View
         }
         #endregion Add ToDo List Item
 
+        #region Delete ToDo List Item
+        private void ToDoListItem_Delete_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Button button = sender as Button;
+                ToDoListItemModel deleteItem = button.DataContext as ToDoListItemModel;
+                var toDoListItem = _toDoListItemService.GetById(deleteItem.Id);
+
+                if (toDoListItem != null)
+                {
+                    _toDoListItemService.Delete(toDoListItem);
+                    FillToDoListItemGrid(selectedToDoListId);
+                    MessageBox.Show("ToDo List Item has been deleted successfully.");
+                }
+                else
+                {
+                    MessageBox.Show("ToDo List Item has not been selected.");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred : " + ex.Message);
+            }
+        }
+
+        #endregion Delete ToDo List Item
+
+        #region Update  ToDo List Item
+        ToDoListItemModel willbeUpdateItemModel;
+        private void ToDoListItem_Edit_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            popupToDoListItemEdit.IsOpen = true;
+            willbeUpdateItemModel = button.DataContext as ToDoListItemModel;
+            txtToDoItemEditName.Text = willbeUpdateItemModel.Name;
+            txtToDoItemEditDescription.Text = willbeUpdateItemModel.Description;
+            txtToDoItemEditStartDate.Text = willbeUpdateItemModel.StartDate.ToString();
+            txtToDoItemEditDeadLine.Text = willbeUpdateItemModel.DeadLine.ToString();
+        }
+
+        private void btnPopupToDoItemEdit_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (willbeUpdateItemModel != null)
+                {
+                    var toDoListItem = _toDoListItemService.GetById(willbeUpdateItemModel.Id);
+                    if (!string.IsNullOrEmpty(txtToDoItemEditName.Text) || !string.IsNullOrEmpty(txtToDoItemEditDescription.Text) || !string.IsNullOrEmpty(txtToDoItemEditStartDate.Text) || !string.IsNullOrEmpty(txtToDoItemEditDeadLine.Text))
+                    {
+                        toDoListItem.Name = txtToDoItemEditName.Text;
+                        toDoListItem.Description = txtToDoItemEditDescription.Text;
+                        toDoListItem.StartDate = Convert.ToDateTime(txtToDoItemEditStartDate.Text);
+                        toDoListItem.DeadLine = Convert.ToDateTime(txtToDoItemEditDeadLine.Text);
+
+                    }
+                    else
+                    {
+                        popupToDoAdd.IsOpen = false;
+                        MessageBox.Show("ToDo List information must be filled !");
+                        popupToDoAdd.IsOpen = true;
+                    }
+
+                    _toDoListItemService.Update(toDoListItem);
+                    txtToDoItemEditName.Text = "";
+                    txtToDoItemEditDescription.Text = "";
+                    txtToDoItemEditStartDate.Text = null;
+                    txtToDoItemEditDeadLine.Text = null;
+                    popupToDoListItemEdit.IsOpen = false;
+                    FillToDoListItemGrid(selectedToDoListId);
+                    MessageBox.Show("ToDo List Item has been edited successfully.");
+                }
+                else
+                {
+                    MessageBox.Show("ToDo List Item has not been selected.");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred : " + ex.Message);
+            }
+        }
+
+        private void btnToDoItemEditPopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            popupToDoListItemEdit.IsOpen = false;
+            txtToDoItemEditName.Text = "";
+            txtToDoItemEditDescription.Text = "";
+            txtToDoItemEditStartDate.Text = null;
+            txtToDoItemEditDeadLine.Text = null;
+        }
+
+        private void chkToDoListItem_Completed_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                CheckBox checkBox = sender as CheckBox;
+                ToDoListItemModel updateItem = checkBox.DataContext as ToDoListItemModel;
+                var toDoListItem = _toDoListItemService.GetById(updateItem.Id);
+
+                if (toDoListItem != null)
+                {
+                    if (checkBox.IsChecked == true)
+                    {
+                        toDoListItem.StatusId = 2;
+                    }
+                    else
+                    {
+                        toDoListItem.StatusId = 1;
+                    }
+                    _toDoListItemService.Update(toDoListItem);
+                    FillToDoListItemGrid(selectedToDoListId);
+                    MessageBox.Show("ToDo List Item has been updated for complete successfully.");
+                }
+                else
+                {
+                    MessageBox.Show("ToDo List Item has not been selected.");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred : " + ex.Message);
+            }
+
+        }
+
+        #endregion Update  ToDo List Item
+
         #endregion Event Functions
 
 
-        private void ToDoListItem_Delete_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ToDoListItem_Edit_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
 
-        private void ToDoListItem_Completed_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
+
+
+
+
     }
 }

@@ -12,5 +12,6 @@ namespace ToDoApp.Business.Abstract
         void Delete(ToDoListItem entity);
 
         List<ToDoListItem> GetToDoListItemsByToDoListId(int toDoListId);
+        ToDoListItem GetById(int id);
     }
 }

@@ -24,6 +24,11 @@ namespace ToDoApp.Business.Concrete
             _toDoListItemDal.Delete(entity);
         }
 
+        public ToDoListItem GetById(int id)
+        {
+            return _toDoListItemDal.GetById(id);
+        }
+
         public List<ToDoListItem> GetToDoListItemsByToDoListId(int toDoListId)
         {
             return _toDoListItemDal.GetToDoListItemsByToDoListId(toDoListId);

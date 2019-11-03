@@ -41,19 +41,18 @@
 
                     <ListView Name="lvToDoListItem" Margin="0 100" FontFamily="Champagne &amp; Limousines" FontSize="18" Width="1500">
                         <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Id" Width="120" DisplayMemberBinding="{Binding Id}" />
-                                <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}" />
-                                <GridViewColumn Header="Description" Width="120" DisplayMemberBinding="{Binding Description}"/>
-                                <GridViewColumn Header="StartDate" Width="120" DisplayMemberBinding="{Binding StartDate}" />
-                                <GridViewColumn Header="DeadLine" Width="120" DisplayMemberBinding="{Binding DeadLine}" />
-                                <GridViewColumn Header="Status" Width="120" DisplayMemberBinding="{Binding Status}" />
+                            <GridView x:Name="grdToDoListItem">
+                                <GridViewColumn Header="Id" Width="100" DisplayMemberBinding="{Binding Id}" />
+                                <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}" />
+                                <GridViewColumn Header="Description" Width="150" DisplayMemberBinding="{Binding Description}"/>
+                                <GridViewColumn Header="StartDate" Width="220" DisplayMemberBinding="{Binding StartDate}" />
+                                <GridViewColumn Header="DeadLine" Width="220" DisplayMemberBinding="{Binding DeadLine}" />
+                                <GridViewColumn Header="Status" Width="150" DisplayMemberBinding="{Binding Status}" />
                                 <GridViewColumn Header="Is Completed" Width="130">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button x:Name="ToDoListItem_Completed" FontSize="17" HorizontalAlignment="Center" Margin="20 0" Click="ToDoListItem_Completed_Click">
-                                                <materialDesign:PackIcon Kind="TicketConfirmation"/>
-                                            </Button>
+                                            <CheckBox x:Name="chkToDoListItem_Completed" FontSize="17" HorizontalAlignment="Center" Margin="20 0" Click="chkToDoListItem_Completed_Click" IsChecked="{Binding IsCompleted}">
+                                            </CheckBox>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
 
@@ -89,7 +88,7 @@
             <Popup x:Name="popupToDoListItemAdd" Width="500" Height="600" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center" >
                 <Border Background="#2e3137" CornerRadius="20" Margin="20">
                     <StackPanel Margin="20">
-                        <Label Content="ToDo List Add" Foreground="White" FontSize="25" HorizontalAlignment="Center"/>
+                        <Label Content="ToDo List Item Add" Foreground="White" FontSize="25" HorizontalAlignment="Center"/>
                         <Separator></Separator>
                         <Label Content="ToDo Item Name" Foreground="White"/>
                         <TextBox Name="txtToDoItemName" Background="#545d6a" Foreground="White" FontSize="18"/>
@@ -104,6 +103,32 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0 100 0 0" HorizontalAlignment="Right">
                             <Button Name="btnToDoItemPopupClose" Click="btnToDoItemPopupClose_Click" Margin="10" Content="Close"  Background="#545d6a" Foreground="White" FontSize="18"  />
+
+                        </StackPanel>
+
+                    </StackPanel>
+
+                </Border>
+            </Popup>
+
+            <Popup x:Name="popupToDoListItemEdit" Width="500" Height="600" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center" >
+                <Border Background="#2e3137" CornerRadius="20" Margin="20">
+                    <StackPanel Margin="20">
+                        <Label Content="ToDo List Item Edit" Foreground="White" FontSize="25" HorizontalAlignment="Center"/>
+                        <Separator></Separator>
+                        <Label Content="ToDo Item Name" Foreground="White"/>
+                        <TextBox Name="txtToDoItemEditName" Background="#545d6a" Foreground="White" FontSize="18"/>
+                        <Label Content="ToDo Item Description" Foreground="White"/>
+                        <TextBox Name="txtToDoItemEditDescription" Background="#545d6a" Foreground="White" FontSize="18"/>
+                        <Label Content="ToDo Item Start Date" Foreground="White"/>
+                        <DatePicker Name="txtToDoItemEditStartDate" Background="#545d6a" Foreground="Black" FontSize="18"/>
+                        <Label Content="ToDo Item Deadline" Foreground="White"/>
+                        <DatePicker Name="txtToDoItemEditDeadLine" Background="#545d6a" Foreground="Black" FontSize="18"/>
+                        <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
+                            <Button Name="btnPopupToDoItemEdit" Click="btnPopupToDoItemEdit_Click" Margin="10" Content="Edit"  Background="#545d6a" Foreground="White" FontSize="18"  />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 100 0 0" HorizontalAlignment="Right">
+                            <Button Name="btnToDoItemEditPopupClose" Click="btnToDoItemEditPopupClose_Click" Margin="10" Content="Close"  Background="#545d6a" Foreground="White" FontSize="18"  />
 
                         </StackPanel>
 

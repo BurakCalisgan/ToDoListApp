@@ -12,6 +12,7 @@ namespace ToDoApp.Model
         public DateTime StartDate { get; set; }
         public DateTime DeadLine { get; set; }
         public string Status { get; set; }
+        public bool IsCompleted { get; set; }
        
     }
 }
