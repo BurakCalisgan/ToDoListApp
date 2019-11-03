@@ -33,9 +33,11 @@ namespace ToDoApp
             //DataAccess
             services.AddScoped<IUserDal, EfCoreUserDal>(); 
             services.AddScoped<IToDoListDal, EfCoreToDoListDal>();
+            services.AddScoped<IToDoListItemDal, EfCoreToDoListItemDal>();
             //Business
             services.AddScoped<IUserService, UserManager>();
             services.AddScoped<IToDoListService, ToDoListManager>();
+            services.AddScoped<IToDoListItemService, ToDoListItemManager>();
 
             services.AddScoped<LoginPage>();
             services.AddScoped<RegisterPage>();

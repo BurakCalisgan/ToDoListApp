@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ToDoApp.Entities
+namespace ToDoApp.Model
 {
-    public class ToDoListItem
+    public class ToDoListItemModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime DeadLine { get; set; }
-        public int StatusId { get; set; }
-        public Status Status { get; set; }
-        public int ToDoListId { get; set; }
-        public ToDoList ToDoList { get; set; }
+        public string Status { get; set; }
+       
     }
 }

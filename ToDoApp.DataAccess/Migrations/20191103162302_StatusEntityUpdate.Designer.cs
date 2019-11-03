@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ToDoApp.DataAccess.Concrete.EfCore;
 
 namespace ToDoApp.DataAccess.Migrations
 {
     [DbContext(typeof(ToDoListContext))]
-    partial class ToDoListContextModelSnapshot : ModelSnapshot
+    [Migration("20191103162302_StatusEntityUpdate")]
+    partial class StatusEntityUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,7 +75,10 @@ namespace ToDoApp.DataAccess.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int>("StatuId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StatusId")
                         .HasColumnType("int");
 
                     b.Property<int>("ToDoListId")
@@ -126,9 +131,7 @@ namespace ToDoApp.DataAccess.Migrations
                 {
                     b.HasOne("ToDoApp.Entities.Status", "Status")
                         .WithMany("ToDoListItems")
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StatusId");
 
                     b.HasOne("ToDoApp.Entities.ToDoList", "ToDoList")
                         .WithMany("ToDoListItems")

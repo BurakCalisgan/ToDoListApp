@@ -13,12 +13,12 @@
                 <Grid  Height="10"/>
                 <Grid Margin="5">
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                        <TextBlock Text="ToDo ListApp" VerticalAlignment="Center" FontSize="20" FontFamily="Champagne &amp; Limousines" Margin="20 0"/>
+                        <TextBlock Text="ToDo ListApp" VerticalAlignment="Center" FontSize="20" FontFamily="Champagne &amp; Limousines" Margin="20 -20"/>
                         
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10 0">
                         <Button Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Foreground="Gray">
-                            <materialDesign:PackIcon Kind="Speaker"/>
+                            <materialDesign:PackIcon Kind="Account"/>
                         </Button>
                         <TextBlock x:Name="txtUserFullName" Text="" VerticalAlignment="Center" FontSize="20" FontFamily="Champagne &amp; Limousines" Margin=" 0"/>
                         
@@ -31,11 +31,91 @@
                     </StackPanel>
                 </Grid>
             </StackPanel>
-
+            
+            <!--ToDo List Item-->
             <Grid Margin="250 55 0 0">
-                <Grid x:Name="GridPrincipal" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Grid x:Name="GridPrincipal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="160 -55 10 10">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Width="200" Margin="-10 50">
+                        <Button Name="btnToDoListAdd" Click="btnToDoListItemAdd_Click" Margin="10" Content="ToDo List Item Add"  Background="#545d6a" Foreground="White" FontSize="18"  />
+                    </StackPanel>
+
+                    <ListView Name="lvToDoListItem" Margin="0 100" FontFamily="Champagne &amp; Limousines" FontSize="18" Width="1500">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Id" Width="120" DisplayMemberBinding="{Binding Id}" />
+                                <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}" />
+                                <GridViewColumn Header="Description" Width="120" DisplayMemberBinding="{Binding Description}"/>
+                                <GridViewColumn Header="StartDate" Width="120" DisplayMemberBinding="{Binding StartDate}" />
+                                <GridViewColumn Header="DeadLine" Width="120" DisplayMemberBinding="{Binding DeadLine}" />
+                                <GridViewColumn Header="Status" Width="120" DisplayMemberBinding="{Binding Status}" />
+                                <GridViewColumn Header="Is Completed" Width="130">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button x:Name="ToDoListItem_Completed" FontSize="17" HorizontalAlignment="Center" Margin="20 0" Click="ToDoListItem_Completed_Click">
+                                                <materialDesign:PackIcon Kind="TicketConfirmation"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+
+                                </GridViewColumn>
+                                
+                                <GridViewColumn Header="Delete" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button x:Name="ToDoListItem_Delete" FontSize="17" HorizontalAlignment="Center" Margin="20 0" Click="ToDoListItem_Delete_Click">
+                                                <materialDesign:PackIcon Kind="Delete"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+
+                                </GridViewColumn>
+                                <GridViewColumn Header="Edit" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button x:Name="ToDoListItem_Edit" FontSize="17" VerticalAlignment="Center" Margin="20 0" Click="ToDoListItem_Edit_Click">
+                                                <materialDesign:PackIcon Kind="TableEdit"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+
+                                </GridViewColumn>
+
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
             </Grid>
 
+            <Popup x:Name="popupToDoListItemAdd" Width="500" Height="600" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center" >
+                <Border Background="#2e3137" CornerRadius="20" Margin="20">
+                    <StackPanel Margin="20">
+                        <Label Content="ToDo List Add" Foreground="White" FontSize="25" HorizontalAlignment="Center"/>
+                        <Separator></Separator>
+                        <Label Content="ToDo Item Name" Foreground="White"/>
+                        <TextBox Name="txtToDoItemName" Background="#545d6a" Foreground="White" FontSize="18"/>
+                        <Label Content="ToDo Item Description" Foreground="White"/>
+                        <TextBox Name="txtToDoItemDescription" Background="#545d6a" Foreground="White" FontSize="18"/>
+                        <Label Content="ToDo Item Start Date" Foreground="White"/>
+                        <DatePicker Name="txtToDoItemStartDate" Background="#545d6a" Foreground="Black" FontSize="18"/>
+                        <Label Content="ToDo Item Deadline" Foreground="White"/>
+                        <DatePicker Name="txtToDoItemDeadLine" Background="#545d6a" Foreground="Black" FontSize="18"/>
+                        <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
+                            <Button Name="btnPopupToDoItemAdd" Click="btnPopupToDoItemAdd_Click" Margin="10" Content="Add"  Background="#545d6a" Foreground="White" FontSize="18"  />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 100 0 0" HorizontalAlignment="Right">
+                            <Button Name="btnToDoItemPopupClose" Click="btnToDoItemPopupClose_Click" Margin="10" Content="Close"  Background="#545d6a" Foreground="White" FontSize="18"  />
+
+                        </StackPanel>
+
+                    </StackPanel>
+
+                </Border>
+            </Popup>
+
+
+            <!--ToDo List Item-->
+            
+            <!--ToDo List-->
             <Grid Width="400" HorizontalAlignment="Left" Background="#2e3137">
                
                 <materialDesign:TransitioningContent x:Name="TrainsitionigContentSlide" OpeningEffect="{materialDesign:TransitionEffect SlideInFromLeft, Duration=0:0:0.2}">
@@ -83,7 +163,7 @@
 
                 </Border>
             </Popup>
-
+            
             <Popup x:Name="popupToDoEdit" Width="500" Height="400" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center" >
                 <Border Background="#2e3137" CornerRadius="20" Margin="20">
                     <StackPanel Margin="20">
@@ -103,6 +183,7 @@
 
                 </Border>
             </Popup>
+            <!--ToDo List-->
         </Grid>
     </Border>
 

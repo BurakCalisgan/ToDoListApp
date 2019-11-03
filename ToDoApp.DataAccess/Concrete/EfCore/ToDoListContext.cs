@@ -21,6 +21,7 @@ namespace ToDoApp.DataAccess.Concrete.EfCore
         }
         public DbSet<User> Users { get; set; }
         public DbSet<ToDoList> ToDoLists { get; set; }
+        public DbSet<ToDoListItem> ToDoListItem { get; set; }
         public DbSet<Status> Statuses { get; set; }
     }
 }

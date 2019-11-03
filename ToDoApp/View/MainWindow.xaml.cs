@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ToDoApp.Business.Abstract;
 using ToDoApp.Entities;
+using ToDoApp.Model;
 
 namespace ToDoApp.View
 {
@@ -14,7 +17,9 @@ namespace ToDoApp.View
     {
         private static IUserService _userService;
         private static IToDoListService _toDoListService;
+        private static IToDoListItemService _toDoListItemService;
         public int userId;
+        public int selectedToDoListId;
         public MainWindow()
         {
             InitializeComponent();
@@ -28,16 +33,34 @@ namespace ToDoApp.View
             }
 
         }
-        public MainWindow(IUserService userService, IToDoListService toDoListService)
+        public MainWindow(IUserService userService, IToDoListService toDoListService, IToDoListItemService toDoListItemService)
         {
             _userService = userService;
             _toDoListService = toDoListService;
+            _toDoListItemService = toDoListItemService;
         }
 
         #region Fiil Functions
         public void FillToDoListMenu(int userId)
         {
             ToDoListMenu.ItemsSource = _toDoListService.GetToDoListByUserId(userId);
+        }
+        public void FillToDoListItemGrid(int ToDoListId)
+        {
+            var toDoListItems = _toDoListItemService.GetToDoListItemsByToDoListId(ToDoListId);
+            List<ToDoListItemModel> list = new List<ToDoListItemModel>();
+            list = toDoListItems.Select(i => new ToDoListItemModel()
+            {
+                Id = i.Id,
+                Name = i.Name,
+                Description=i.Description,
+                StartDate =i.StartDate,
+                DeadLine = i.DeadLine,
+                Status = i.Status.Name
+
+
+            }).ToList();
+            lvToDoListItem.ItemsSource = list;
         }
 
         public void FillUserInfo()
@@ -64,21 +87,12 @@ namespace ToDoApp.View
 
         private void ToDoListMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             int index = ToDoListMenu.SelectedIndex;
+            var toDoList = (ToDoList)ToDoListMenu.SelectedItem;
+            selectedToDoListId = toDoList.Id;
+            FillToDoListItemGrid(selectedToDoListId);
             MoveCursorMenu(index);
 
-            switch (index)
-            {
-                case 0:
-                    MessageBox.Show("test");
-                    break;
-                case 1:
-                    MessageBox.Show("test2");
-                    break;
-                default:
-                    break;
-            }
         }
 
         private void MoveCursorMenu(int index)
@@ -123,9 +137,9 @@ namespace ToDoApp.View
             Button button = sender as Button;
             willBeUpdatedToDo = button.DataContext as ToDoList;
             txtToDoEditName.Text = willBeUpdatedToDo.Name;
-          
+
         }
-        
+
         private void btnPopupToDoEdit_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -142,7 +156,7 @@ namespace ToDoApp.View
                         MessageBox.Show("ToDo List information must be filled !");
                         popupToDoAdd.IsOpen = true;
                     }
-                       
+
                     _toDoListService.Update(willBeUpdatedToDo);
                     txtToDoEditName.Text = "";
                     popupToDoEdit.IsOpen = false;
@@ -216,10 +230,81 @@ namespace ToDoApp.View
         }
 
 
+
+
         #endregion Add ToDoList
 
         #endregion Event Functions
 
-       
+        private void btnToDoListItemAdd_Click(object sender, RoutedEventArgs e)
+        {
+            popupToDoListItemAdd.IsOpen = true;
+        }
+
+        private void btnPopupToDoItemAdd_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(txtToDoItemName.Text) || !string.IsNullOrEmpty(txtToDoItemName.Text) || txtToDoItemStartDate.SelectedDate.Value != null || txtToDoItemDeadLine.SelectedDate.Value != null)
+                {
+                    ToDoListItem toDoListItem = new ToDoListItem()
+                    {
+                        Name = txtToDoItemName.Text,
+                        Description = txtToDoItemDescription.Text,
+                        StartDate = txtToDoItemStartDate.SelectedDate.Value,
+                        DeadLine = txtToDoItemDeadLine.SelectedDate.Value,
+                        StatusId = 1,
+                        ToDoListId = selectedToDoListId
+                    };
+
+                    _toDoListItemService.Create(toDoListItem);
+                    txtToDoItemDescription.Text = "";
+                    txtToDoItemName.Text = "";
+                    txtToDoItemStartDate.Text = null;
+                    txtToDoItemDeadLine.Text = null;
+                    popupToDoAdd.IsOpen = false;
+                    FillToDoListItemGrid(selectedToDoListId);
+                    MessageBox.Show("ToDo List Item has been added successfully.");
+
+                }
+                else
+                {
+                    popupToDoListItemAdd.IsOpen = false;
+                    MessageBox.Show("ToDo List Item information must be filled !");
+                    popupToDoListItemAdd.IsOpen = true;
+                }
+
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred : " + ex.Message);
+            }
+        }
+
+        private void btnToDoItemPopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            popupToDoListItemAdd.IsOpen = false;
+            txtToDoItemName.Text = "";
+            txtToDoItemDescription.Text = "";
+            txtToDoItemStartDate.Text = null;
+            txtToDoItemDeadLine.Text = null;
+        }
+
+        private void ToDoListItem_Delete_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ToDoListItem_Edit_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+        private void ToDoListItem_Completed_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

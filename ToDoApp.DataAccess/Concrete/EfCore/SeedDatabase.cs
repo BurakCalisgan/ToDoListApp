@@ -35,6 +35,15 @@ namespace ToDoApp.DataAccess.Concrete.EfCore
                 );
                 context.SaveChanges();
             }
+            if (!context.Statuses.Any())
+            {
+                context.Statuses.AddRange(
+                    new Status() { Name = "Complete" },
+                    new Status() { Name = "Not Complete" }
+
+                );
+                context.SaveChanges();
+            }
         }
 
     }
