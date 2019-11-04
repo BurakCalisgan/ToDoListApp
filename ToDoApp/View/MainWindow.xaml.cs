@@ -272,9 +272,17 @@ namespace ToDoApp.View
         {
             int index = ToDoListMenu.SelectedIndex;
             var toDoList = (ToDoList)ToDoListMenu.SelectedItem;
-            selectedToDoListId = toDoList.Id;
-            FillToDoListItemGrid(selectedToDoListId);
-            MoveCursorMenu(index);
+            if (toDoList !=null)
+            {
+                selectedToDoListId = toDoList.Id;
+                FillToDoListItemGrid(selectedToDoListId);
+            }
+           
+            if (index != -1)
+            {
+                MoveCursorMenu(index);
+            }
+           
 
         }
 
