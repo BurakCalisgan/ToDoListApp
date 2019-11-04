@@ -38,6 +38,14 @@
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Width="200" Margin="-10 50">
                         <Button Name="btnToDoListAdd" Click="btnToDoListItemAdd_Click" Margin="10" Content="ToDo List Item Add"  Background="#545d6a" Foreground="White" FontSize="18"  />
                     </StackPanel>
+                    <StackPanel HorizontalAlignment="Left" Width="200" Margin="600 50">
+                        <ComboBox Name="cmbOrder"  Margin="10"   Background="#545d6a" Foreground="Black" FontSize="18"  SelectionChanged="cmbOrder_SelectionChanged" >
+                            <ComboBoxItem IsSelected="True">Chose for Order</ComboBoxItem>
+                            <ComboBoxItem>Start Date</ComboBoxItem>
+                            <ComboBoxItem>DeadLine</ComboBoxItem>
+                            <ComboBoxItem>Name</ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
 
                     <ListView Name="lvToDoListItem" Margin="0 100" FontFamily="Champagne &amp; Limousines" FontSize="18" Width="1500">
                         <ListView.View>

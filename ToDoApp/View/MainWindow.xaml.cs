@@ -57,10 +57,89 @@ namespace ToDoApp.View
                 Description = i.Description,
                 StartDate = i.StartDate,
                 DeadLine = i.DeadLine,
-                Status = DateTime.Now > i.DeadLine  ? "Expired " : i.Status.Name,
+                Status = DateTime.Now > i.DeadLine ? "Expired " : i.Status.Name,
                 IsCompleted = i.Status.Id != 2 ? false : true
             }).ToList();
             lvToDoListItem.ItemsSource = list;
+        }
+
+        public void FillToDoListItemGridByOrderCase(int index)
+        {
+            //0 default
+            //1 start date
+            //2 deadline
+            //3 name
+            if (selectedToDoListId == 0)
+            {
+                return;
+            }
+            if (index == 0)
+            {
+                var toDoListItems = _toDoListItemService.GetToDoListItemsByToDoListId(selectedToDoListId);
+                List<ToDoListItemModel> list = new List<ToDoListItemModel>();
+                list = toDoListItems.Select(i => new ToDoListItemModel()
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    Description = i.Description,
+                    StartDate = i.StartDate,
+                    DeadLine = i.DeadLine,
+                    Status = DateTime.Now > i.DeadLine ? "Expired " : i.Status.Name,
+                    IsCompleted = i.Status.Id != 2 ? false : true
+                }).ToList();
+                lvToDoListItem.ItemsSource = list;
+            }
+            else if (index == 1)
+            {
+                var toDoListItems = _toDoListItemService.GetToDoListItemsByToDoListId(selectedToDoListId);
+                List<ToDoListItemModel> list = new List<ToDoListItemModel>();
+                list = toDoListItems.Select(i => new ToDoListItemModel()
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    Description = i.Description,
+                    StartDate = i.StartDate,
+                    DeadLine = i.DeadLine,
+                    Status = DateTime.Now > i.DeadLine ? "Expired " : i.Status.Name,
+                    IsCompleted = i.Status.Id != 2 ? false : true
+                }).OrderBy(i => i.StartDate)
+                .ToList();
+                lvToDoListItem.ItemsSource = list;
+            }
+            else if (index == 2)
+            {
+                var toDoListItems = _toDoListItemService.GetToDoListItemsByToDoListId(selectedToDoListId);
+                List<ToDoListItemModel> list = new List<ToDoListItemModel>();
+                list = toDoListItems.Select(i => new ToDoListItemModel()
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    Description = i.Description,
+                    StartDate = i.StartDate,
+                    DeadLine = i.DeadLine,
+                    Status = DateTime.Now > i.DeadLine ? "Expired " : i.Status.Name,
+                    IsCompleted = i.Status.Id != 2 ? false : true
+                }).OrderBy(i => i.DeadLine)
+                .ToList();
+                lvToDoListItem.ItemsSource = list;
+            }
+            else if (index == 3)
+            {
+                var toDoListItems = _toDoListItemService.GetToDoListItemsByToDoListId(selectedToDoListId);
+                List<ToDoListItemModel> list = new List<ToDoListItemModel>();
+                list = toDoListItems.Select(i => new ToDoListItemModel()
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    Description = i.Description,
+                    StartDate = i.StartDate,
+                    DeadLine = i.DeadLine,
+                    Status = DateTime.Now > i.DeadLine ? "Expired " : i.Status.Name,
+                    IsCompleted = i.Status.Id != 2 ? false : true
+                }).OrderBy(i => i.Name)
+                .ToList();
+                lvToDoListItem.ItemsSource = list;
+            }
         }
 
         public void FillUserInfo()
@@ -421,16 +500,27 @@ namespace ToDoApp.View
 
         }
 
+
+
+
+
+
+
+
+
         #endregion Update  ToDo List Item
 
+        #region Order
+        private void cmbOrder_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int index = cmbOrder.SelectedIndex;
+            FillToDoListItemGridByOrderCase(index);
+
+        }
+        #endregion Order
+
+
         #endregion Event Functions
-
-
-
-
-
-
-
 
 
     }
