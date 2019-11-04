@@ -18,8 +18,10 @@ namespace ToDoApp.View
         private static IUserService _userService;
         private static IToDoListService _toDoListService;
         private static IToDoListItemService _toDoListItemService;
+        private static IStatusService _statusService;
         public int userId;
         public int selectedToDoListId;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -30,14 +32,16 @@ namespace ToDoApp.View
             {
                 FillToDoListMenu(userId);
                 FillUserInfo();
+                FillCmnbFilter();
             }
 
         }
-        public MainWindow(IUserService userService, IToDoListService toDoListService, IToDoListItemService toDoListItemService)
+        public MainWindow(IUserService userService, IToDoListService toDoListService, IToDoListItemService toDoListItemService, IStatusService statusService)
         {
             _userService = userService;
             _toDoListService = toDoListService;
             _toDoListItemService = toDoListItemService;
+            _statusService = statusService;
         }
 
         #region Fiil Functions
@@ -57,7 +61,7 @@ namespace ToDoApp.View
                 Description = i.Description,
                 StartDate = i.StartDate,
                 DeadLine = i.DeadLine,
-                Status = DateTime.Now > i.DeadLine ? "Expired " : i.Status.Name,
+                Status = DateTime.Now > i.DeadLine ? "Expired" : i.Status.Name,
                 IsCompleted = i.Status.Id != 2 ? false : true
             }).ToList();
             lvToDoListItem.ItemsSource = list;
@@ -84,7 +88,7 @@ namespace ToDoApp.View
                     Description = i.Description,
                     StartDate = i.StartDate,
                     DeadLine = i.DeadLine,
-                    Status = DateTime.Now > i.DeadLine ? "Expired " : i.Status.Name,
+                    Status = DateTime.Now > i.DeadLine ? "Expired" : i.Status.Name,
                     IsCompleted = i.Status.Id != 2 ? false : true
                 }).ToList();
                 lvToDoListItem.ItemsSource = list;
@@ -100,7 +104,7 @@ namespace ToDoApp.View
                     Description = i.Description,
                     StartDate = i.StartDate,
                     DeadLine = i.DeadLine,
-                    Status = DateTime.Now > i.DeadLine ? "Expired " : i.Status.Name,
+                    Status = DateTime.Now > i.DeadLine ? "Expired" : i.Status.Name,
                     IsCompleted = i.Status.Id != 2 ? false : true
                 }).OrderBy(i => i.StartDate)
                 .ToList();
@@ -117,7 +121,7 @@ namespace ToDoApp.View
                     Description = i.Description,
                     StartDate = i.StartDate,
                     DeadLine = i.DeadLine,
-                    Status = DateTime.Now > i.DeadLine ? "Expired " : i.Status.Name,
+                    Status = DateTime.Now > i.DeadLine ? "Expired" : i.Status.Name,
                     IsCompleted = i.Status.Id != 2 ? false : true
                 }).OrderBy(i => i.DeadLine)
                 .ToList();
@@ -134,7 +138,7 @@ namespace ToDoApp.View
                     Description = i.Description,
                     StartDate = i.StartDate,
                     DeadLine = i.DeadLine,
-                    Status = DateTime.Now > i.DeadLine ? "Expired " : i.Status.Name,
+                    Status = DateTime.Now > i.DeadLine ? "Expired" : i.Status.Name,
                     IsCompleted = i.Status.Id != 2 ? false : true
                 }).OrderBy(i => i.Name)
                 .ToList();
@@ -148,6 +152,106 @@ namespace ToDoApp.View
             txtUserFullName.Text = userInfo.FullName;
         }
 
+        public void FillCmnbFilter()
+        {
+            var list = _statusService.GetAll();
+            list.Add(new Status()
+            {
+                Id = 0,
+                Name = "Chose for Filter"
+            });
+            list.Add(new Status()
+            {
+                Id = -1,
+                Name = "Expired"
+            });
+
+            cmbFilter.ItemsSource = list;
+        }
+
+        public void FillToDoListItemGridByFilterCase(int id)
+        {
+            //-1 Expired
+            //0 Default
+            //1 Not Completed
+            //2 Completed
+            if (selectedToDoListId == 0)
+            {
+                return;
+            }
+            if (id == -1)
+            {
+                var toDoListItems = _toDoListItemService.GetToDoListItemsByToDoListId(selectedToDoListId);
+                List<ToDoListItemModel> list = new List<ToDoListItemModel>();
+                list = toDoListItems.Select(i => new ToDoListItemModel()
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    Description = i.Description,
+                    StartDate = i.StartDate,
+                    DeadLine = i.DeadLine,
+                    Status = DateTime.Now > i.DeadLine ? "Expired" : i.Status.Name,
+                    IsCompleted = i.Status.Id != 2 ? false : true
+                })
+                .Where(i => i.Status == "Expired")
+                .ToList();
+                lvToDoListItem.ItemsSource = list;
+            }
+            else if (id == 0)
+            {
+                var toDoListItems = _toDoListItemService.GetToDoListItemsByToDoListId(selectedToDoListId);
+                List<ToDoListItemModel> list = new List<ToDoListItemModel>();
+                list = toDoListItems.Select(i => new ToDoListItemModel()
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    Description = i.Description,
+                    StartDate = i.StartDate,
+                    DeadLine = i.DeadLine,
+                    Status = DateTime.Now > i.DeadLine ? "Expired" : i.Status.Name,
+                    IsCompleted = i.Status.Id != 2 ? false : true
+                })
+                .ToList();
+                lvToDoListItem.ItemsSource = list;
+            }
+            else if (id == 1)
+            {
+                var toDoListItems = _toDoListItemService.GetToDoListItemsByToDoListId(selectedToDoListId);
+                List<ToDoListItemModel> list = new List<ToDoListItemModel>();
+                toDoListItems = toDoListItems.Where(i => i.StatusId == id).ToList();
+                list = toDoListItems.Select(i => new ToDoListItemModel()
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    Description = i.Description,
+                    StartDate = i.StartDate,
+                    DeadLine = i.DeadLine,
+                    Status = DateTime.Now > i.DeadLine ? "Expired" : i.Status.Name,
+                    IsCompleted = i.Status.Id != 2 ? false : true
+                })
+                .Where(i => i.Status != "Expired")
+                .ToList();
+                lvToDoListItem.ItemsSource = list;
+            }
+            else if (id == 2)
+            {
+                var toDoListItems = _toDoListItemService.GetToDoListItemsByToDoListId(selectedToDoListId);
+                List<ToDoListItemModel> list = new List<ToDoListItemModel>();
+                toDoListItems = toDoListItems.Where(i => i.StatusId == id).ToList();
+                list = toDoListItems.Select(i => new ToDoListItemModel()
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    Description = i.Description,
+                    StartDate = i.StartDate,
+                    DeadLine = i.DeadLine,
+                    Status = i.Status.Name,
+                    IsCompleted = i.Status.Id != 2 ? false : true
+                })
+                .ToList();
+                lvToDoListItem.ItemsSource = list;
+            }
+        }
 
         #endregion Fiil Functions
 
@@ -517,11 +621,24 @@ namespace ToDoApp.View
             FillToDoListItemGridByOrderCase(index);
 
         }
+
+
         #endregion Order
 
+        #region Filter
+
+        private void cmbFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            Status status = cmbFilter.SelectedItem as Status;
+            FillToDoListItemGridByFilterCase(status.Id);
+        }
+
+        #endregion Filter
 
         #endregion Event Functions
 
 
+       
     }
 }

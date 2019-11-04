@@ -14,14 +14,14 @@
                 <Grid Margin="5">
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <TextBlock Text="ToDo ListApp" VerticalAlignment="Center" FontSize="20" FontFamily="Champagne &amp; Limousines" Margin="20 -20"/>
-                        
+
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10 0">
                         <Button Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Foreground="Gray">
                             <materialDesign:PackIcon Kind="Account"/>
                         </Button>
                         <TextBlock x:Name="txtUserFullName" Text="" VerticalAlignment="Center" FontSize="20" FontFamily="Champagne &amp; Limousines" Margin=" 0"/>
-                        
+
                         <Button Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Foreground="Gray" Margin="0 0 10 0">
                             <materialDesign:PackIcon Kind="Settings"/>
                         </Button>
@@ -31,7 +31,7 @@
                     </StackPanel>
                 </Grid>
             </StackPanel>
-            
+
             <!--ToDo List Item-->
             <Grid Margin="250 55 0 0">
                 <Grid x:Name="GridPrincipal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="160 -55 10 10">
@@ -44,6 +44,13 @@
                             <ComboBoxItem>Start Date</ComboBoxItem>
                             <ComboBoxItem>DeadLine</ComboBoxItem>
                             <ComboBoxItem>Name</ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Left" Width="200" Margin="400 50">
+                        <ComboBox Name="cmbFilter"  Margin="10"   Background="#545d6a" Foreground="Black" FontSize="18"  SelectionChanged="cmbFilter_SelectionChanged" 
+                                  ItemsSource="{Binding list}"
+                                  DisplayMemberPath="Name"
+                                  SelectedIndex="2">
                         </ComboBox>
                     </StackPanel>
 
@@ -65,7 +72,7 @@
                                     </GridViewColumn.CellTemplate>
 
                                 </GridViewColumn>
-                                
+
                                 <GridViewColumn Header="Delete" Width="100">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
@@ -147,16 +154,16 @@
 
 
             <!--ToDo List Item-->
-            
+
             <!--ToDo List-->
             <Grid Width="400" HorizontalAlignment="Left" Background="#2e3137">
-               
+
                 <materialDesign:TransitioningContent x:Name="TrainsitionigContentSlide" OpeningEffect="{materialDesign:TransitionEffect SlideInFromLeft, Duration=0:0:0.2}">
                     <Grid x:Name="GridCursor" Margin="0 100 0 0" Background="#2e3137" Width="10" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top"/>
                 </materialDesign:TransitioningContent>
                 <StackPanel Orientation="Vertical" Margin="10">
                     <Button Name="btnToDoAdd" Click="btnToDoAdd_Click" Margin="10" Content="ToDo List Add"  Background="#545d6a" Foreground="White" FontSize="18"  />
-                    
+
                 </StackPanel>
                 <ListView x:Name="ToDoListMenu" Margin="0 100" Background="#2e3137" Foreground="White" FontFamily="Champagne &amp; Limousines" FontSize="18" SelectionChanged="ToDoListMenu_SelectionChanged" SelectedIndex="0">
                     <ListView.ItemTemplate>
@@ -174,7 +181,7 @@
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                    
+
                 </ListView>
             </Grid>
             <Popup x:Name="popupToDoAdd" Width="500" Height="400" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center" >
@@ -196,7 +203,7 @@
 
                 </Border>
             </Popup>
-            
+
             <Popup x:Name="popupToDoEdit" Width="500" Height="400" HorizontalAlignment="Center" VerticalAlignment="Center" Placement="Center" >
                 <Border Background="#2e3137" CornerRadius="20" Margin="20">
                     <StackPanel Margin="20">
@@ -220,5 +227,5 @@
         </Grid>
     </Border>
 
-    
+
 </Window>
